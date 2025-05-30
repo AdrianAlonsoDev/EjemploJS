@@ -252,18 +252,6 @@ CORS (Cross-Origin Resource Sharing) es una medida de seguridad de los navegador
 ### ¿Qué es el almacenamiento en memoria?
 En lugar de usar una base de datos real, guardamos la información en variables de JavaScript que viven en la memoria RAM del servidor. Cuando se reinicia el servidor, todos los datos se pierden.
 
-### ¿Por qué lo elegimos para este proyecto?
-- **Simplicidad**: No necesitamos configurar base de datos
-- **Propósito educativo**: Nos enfocamos en aprender CRUD, no administración de BD
-- **Rápido desarrollo**: Cero configuración adicional
-- **Suficiente para demo**: El proyecto es para aprender conceptos
-
-### Para proyectos reales usaríamos
-- **SQLite**: Para proyectos pequeños
-- **PostgreSQL**: Para proyectos medianos/grandes
-- **MongoDB**: Para datos no relacionales
-- **Redis**: Para cache y datos temporales
-
 ## Arquitectura: ¿Por qué separar Frontend y Backend?
 
 ### Ventajas de la separación
