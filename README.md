@@ -273,11 +273,6 @@ En lugar de usar una base de datos real, guardamos la información en variables 
 - **Equipos separados**: Frontend y backend pueden trabajar en paralelo
 - **Tecnologías específicas**: Cada parte usa las herramientas más adecuadas
 
-### Alternativas consideradas
-- **Monolito**: Todo en una aplicación (más simple pero menos flexible)
-- **Serverless**: Funciones separadas (bueno para escala, complejo para aprender)
-- **JAMstack**: Archivos estáticos (rápido pero limitado para CRUD)
-
 ## Resumen de la Stack
 
 ```
