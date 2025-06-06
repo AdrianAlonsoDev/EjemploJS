@@ -5,8 +5,9 @@ import './App.css'
 function App() {
   // ESTADOS (variables que pueden cambiar y actualizar la página)
   const [items, setItems] = useState([])           // Lista de todos los items
-  const [name, setName] = useState('')             // Valor del campo "nombre"
-  const [description, setDescription] = useState('') // Valor del campo "descripción"
+  const [title, setTitle] = useState('')             // Valor del campo "nombre"
+  const [exercises, setExercises] = useState('') // Valor del campo "descripción"
+  const [notes, setNotes] = useState('') // Valor del campo "descripción"
   const [editingId, setEditingId] = useState(null) // ID del item que estamos editando (null = no editando)
 
   // useEffect se ejecuta cuando el componente se carga por primera vez
@@ -35,7 +36,7 @@ function App() {
     e.preventDefault()
     
     // Validamos que ambos campos tengan contenido (trim() quita espacios)
-    if (!name.trim() || !description.trim()) {
+    if (!title.trim() || !exercises.trim() || !notes.trim()) {
       alert('Por favor completa todos los campos')
       return
     }
@@ -48,7 +49,7 @@ function App() {
           headers: {
             'Content-Type': 'application/json', // Indicamos que enviamos JSON
           },
-          body: JSON.stringify({ name, description }), // Convertimos datos a JSON
+          body: JSON.stringify({ title, exercises, notes }), // Convertimos datos a JSON
         })
         
         // Si la actualización fue exitosa, dejamos de editar
@@ -62,13 +63,14 @@ function App() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ name, description }),
+          body: JSON.stringify({ title, exercises, notes }),
         })
       }
       
       // Limpiamos los campos del formulario
-      setName('')
-      setDescription('')
+      setTitle('')
+      setExercises('')
+      setNotes('')
       // Recargamos la lista para ver los cambios
       fetchItems()
     } catch (error) {
@@ -79,8 +81,9 @@ function App() {
   // FUNCIÓN para iniciar la edición de un item
   const handleEdit = (item) => {
     // Llenamos los campos del formulario con los datos del item a editar
-    setName(item.name)
-    setDescription(item.description)
+    setTitle(item.title)
+    setExercises(item.exercises)
+    setNotes(item.notes)
     // Guardamos el ID para saber cuál item estamos editando
     setEditingId(item.id)
   }
@@ -106,31 +109,40 @@ function App() {
   const cancelEdit = () => {
     // Limpiamos todo: dejamos de editar y vaciamos los campos
     setEditingId(null)
-    setName('')
-    setDescription('')
+    setTitle('')
+    setExercises('')
+    setNotes('')
   }
 
   // RENDERIZADO (lo que se muestra en la página)
   return (
     <div className="app">
-      <h1>CRUD Simple</h1>
+      <h1>Entrenamientos</h1>
       
       {/* FORMULARIO para agregar/editar items */}
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <input
             type="text"
-            placeholder="Nombre"
-            value={name}  // El valor viene del estado
-            onChange={(e) => setName(e.target.value)} // Cuando cambia, actualizamos el estado
+            placeholder="Título"
+            value={title}  // El valor viene del estado
+            onChange={(e) => setTitle(e.target.value)} // Cuando cambia, actualizamos el estado
           />
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Descripción"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Ejercicios"
+            value={exercises}
+            onChange={(e) => setExercises(e.target.value)}
+          />
+        </div>
+                <div className="form-group">
+          <input
+            type="text"
+            placeholder="Notas"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
           />
         </div>
         <div className="form-buttons">
@@ -159,8 +171,9 @@ function App() {
             // Cada item necesita una "key" única para React
             <div key={item.id} className="item">
               <div className="item-info">
-                <h3>{item.name}</h3>        {/* Mostramos el nombre */}
-                <p>{item.description}</p>   {/* Mostramos la descripción */}
+                <h3>{item.title}</h3>        {/* Mostramos el nombre */}
+                <p>{item.exercises}</p> 
+                <p>{item.notes}</p>   {/* Mostramos la descripción */}
               </div>
               <div className="item-actions">
                 {/* Botón editar: pasamos todo el objeto item */}

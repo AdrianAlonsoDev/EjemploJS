@@ -13,12 +13,11 @@ app.use(express.json()); // Permite leer datos JSON del frontend
 
 // Base de datos temporal en memoria (se borra al reiniciar el servidor)
 let items = [
-  { id: 1, name: 'Item 1', description: 'Descripción del item 1' },
-  { id: 2, name: 'Item 2', description: 'Descripción del item 2' }
+  { id: 1, title: 'Hipertrofia', exercises: 'Press banca', notes: '60 min' }
 ];
 
 // Variable para generar IDs únicos automáticamente
-let nextId = 3;
+let nextId = 2;
 
 // ENDPOINT GET - Obtener todos los items
 // Cuando el frontend hace una petición a /api/items, devolvemos todos los items
@@ -47,18 +46,19 @@ app.get('/api/items/:id', (req, res) => {
 // Cuando el frontend envía datos para crear un item nuevo
 app.post('/api/items', (req, res) => {
   // Extraemos name y description del cuerpo de la petición
-  const { name, description } = req.body;
+  const { title, exercises, notes } = req.body;
   
   // Validamos que ambos campos estén presentes
-  if (!name || !description) {
-    return res.status(400).json({ error: 'Nombre y descripción son requeridos' });
+  if (!title || !exercises || !notes) {
+    return res.status(400).json({ error: 'Título, ejercicios y notas son requeridos' });
   }
   
   // Creamos el nuevo item con un ID único
   const newItem = {
     id: nextId++, // Usamos nextId y lo incrementamos
-    name,
-    description
+    title,
+    exercises,
+    notes
   };
   
   // Agregamos el nuevo item al array
@@ -73,7 +73,7 @@ app.put('/api/items/:id', (req, res) => {
   // Obtenemos el ID del item a actualizar
   const id = parseInt(req.params.id);
   // Obtenemos los nuevos datos del cuerpo de la petición
-  const { name, description } = req.body;
+  const { title, exercises, notes } = req.body;
   
   // Buscamos la posición del item en el array
   const itemIndex = items.findIndex(item => item.id === id);
@@ -84,12 +84,12 @@ app.put('/api/items/:id', (req, res) => {
   }
   
   // Validamos que los nuevos datos estén completos
-  if (!name || !description) {
-    return res.status(400).json({ error: 'Nombre y descripción son requeridos' });
+  if (!title || !exercises || !notes) {
+    return res.status(400).json({ error: 'Título, ejercicios y notas son requeridos' });
   }
   
   // Reemplazamos el item en esa posición con los nuevos datos
-  items[itemIndex] = { id, name, description };
+  items[itemIndex] = { id, title, exercises, notes };
   // Devolvemos el item actualizado
   res.json(items[itemIndex]);
 });
